@@ -47,7 +47,7 @@ app.post("/withdrawals", async (req, res) => {
       res.status(201).send({
         message: "Withdrawal received!",
         user: user.name,
-        withdrawal: user.withwithdrawaldrawalAmount,
+        withdrawal: user.withdrawalAmount,
       });
   });
 });

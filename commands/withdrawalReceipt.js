@@ -51,7 +51,7 @@ module.exports = {
         .post(`${serverUrl}/withdrawaltotals`, userInfo)
         .then((res) => {
           let user = res.data[0].name;
-          let totalWithdrawals = res.data[0].totalWithdrawal;
+          let totalWithdrawals = res.data[0].totalWithdrawn;
 
           let embed = new Discord.MessageEmbed()
             .setColor("#e42643")
@@ -93,7 +93,7 @@ module.exports = {
             });
             let embed = new Discord.MessageEmbed()
               .setColor("#e42643")
-              .setTitle(`Top withdrawers for Touching Tips!\n\n`)
+              .setTitle(`Top withdrawers!\n\n`)
               .setDescription(str);
             message.channel.send(embed);
           } else {
@@ -104,7 +104,7 @@ module.exports = {
             });
             let embed = new Discord.MessageEmbed()
               .setColor("#e42643")
-              .setTitle(`Top withdrawers for Touching Tips!\n\n`)
+              .setTitle(`Top withdrawers!\n\n`)
               .setDescription(str);
             message.channel.send(embed);
           }

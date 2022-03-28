@@ -45,7 +45,7 @@ app.post("/withdrawals", async (req, res) => {
     if (err) console.log(err);
     else
       res.status(201).send({
-        message: "Withdrawal received!",
+        message: "Withdrawal posted!",
         user: user.name,
         withdrawal: user.withdrawalAmount,
       });
@@ -70,7 +70,7 @@ app.get("/withdrawalleaderboard", async (req, res) => {
       console.log(err);
     } else {
       users.forEach((user) => {
-        leaders[user.name] = user.totalWithdrawn;
+        leaders[user.name] = user.totalDonated;
       });
     }
 
@@ -87,7 +87,7 @@ app.post("/approved", async (req, res) => {
     let discordUser = new userModel({
       name: withdrawalUpdate.name,
       discordId: withdrawalUpdate.discordId,
-      totalWithdrawn: withdrawalUpdate.withdrawalAmount,
+      totalDonated: withdrawalUpdate.withdrawalAmount,
     });
     userModel.exists(
       { discordId: withdrawalUpdate.discordId },

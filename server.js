@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 var ObjectId = require("mongodb").ObjectID;
 const app = express();
 const userModel = require("./Schemas/userSchema");
-const donationSchema = require("./Schemas/donationSchema");
+const withdrawalSchema = require("./Schemas/withdrawalSchema");
 
 const uri = process.env.MONGODB_PRODUCTION_URL;
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -26,51 +26,51 @@ module.exports = connectDB = async () => {
 };
 const db = mongoose.connection;
 
-app.post("/donations", async (req, res) => {
+app.post("/withdrawals", async (req, res) => {
   let user = req.body.name;
   let id = req.body.discordId;
-  let donation = req.body.donationAmount;
-  let approvedDonation = req.body.approved;
+  let withdrawal = req.body.withdrawalAmount;
+  let approvedWithdrawal = req.body.approved;
   let messageId = req.body.messageId;
 
-  let userDonation = new donationSchema({
+  let userWithdrawal = new withdrawalSchema({
     name: user,
     discordId: id,
-    donationAmount: donation,
-    approved: approvedDonation,
+    withdrawalAmount: withdrawal,
+    approved: approvedWithdrawal,
     messageId: messageId,
   });
 
-  await userDonation.save((err, user) => {
+  await userWithdrawal.save((err, user) => {
     if (err) console.log(err);
     else
       res.status(201).send({
-        message: "Donation received!",
+        message: "Withdrawal received!",
         user: user.name,
-        donation: user.donationAmount,
+        withdrawal: user.withwithdrawaldrawalAmount,
       });
   });
 });
 
-app.post("/donationtotals", async (req, res) => {
+app.post("/withdrawaltotals", async (req, res) => {
   userModel.find({ discordId: req.body.id }, function (err, data) {
     if (err) console.log("error");
     else if (!data.length) {
-      res.status(404).send({ message: "User has not donated to the company!" });
+      res.status(404).send({ message: "User has not withdrawn from the company!" });
     } else {
       return res.status(201).send(data);
     }
   });
 });
 
-app.get("/donationleaderboard", async (req, res) => {
+app.get("/withdrawalleaderboard", async (req, res) => {
   const leaders = {};
   userModel.find({}, function (err, users) {
     if (err) {
       console.log(err);
     } else {
       users.forEach((user) => {
-        leaders[user.name] = user.totalDonated;
+        leaders[user.name] = user.totalWithdrawn;
       });
     }
 
@@ -82,15 +82,15 @@ app.post("/approved", async (req, res) => {
   let messageId = req.body.messageId;
 
   try {
-    let donationUpdate = await donationSchema.findOne({ messageId: messageId });
+    let withdrawalUpdate = await withdrawalSchema.findOne({ messageId: messageId });
 
     let discordUser = new userModel({
-      name: donationUpdate.name,
-      discordId: donationUpdate.discordId,
-      totalDonated: donationUpdate.donationAmount,
+      name: withdrawalUpdate.name,
+      discordId: withdrawalUpdate.discordId,
+      totalWithdrawn: withdrawalUpdate.withdrawalAmount,
     });
     userModel.exists(
-      { discordId: donationUpdate.discordId },
+      { discordId: withdrawalUpdate.discordId },
       async function (err, result) {
         if (err) {
           res.send(err);
@@ -102,11 +102,11 @@ app.post("/approved", async (req, res) => {
           });
         } else {
           let user = await userModel.findOne({
-            discordId: donationUpdate.discordId,
+            discordId: withdrawalUpdate.discordId,
           });
-          donationUpdate.approved = true;
-          donationUpdate.save();
-          user.totalDonated += donationUpdate.donationAmount;
+          withdrawalUpdate.approved = true;
+          withdrawalUpdate.save();
+          user.totalWithdrawn += withdrawalUpdate.withdrawalAmount;
           user.save();
         }
       }

@@ -70,7 +70,7 @@ app.get("/withdrawalleaderboard", async (req, res) => {
       console.log(err);
     } else {
       users.forEach((user) => {
-        leaders[user.name] = user.totalDonated;
+        leaders[user.name] = user.totalWithdrawn;
       });
     }
 

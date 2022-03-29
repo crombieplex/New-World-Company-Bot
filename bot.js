@@ -2,6 +2,7 @@ require("dotenv").config();
 const reactionRoles = require("./commands/reactionRoles");
 const skillSelection = require("./commands/skillSelection");
 const donationReceipt = require("./commands/donationReceipt");
+const withdrawReceipt = require("./commands/withdrawReceipt");
 const connectToDatabase = require("./server");
 const Discord = require("discord.js");
 const client = new Discord.Client({
@@ -46,11 +47,21 @@ client.on("message", (message) => {
   if (command === "donation-leaderboard") {
     donationReceipt.getLeaderboard(message, args, Discord, client);
   }
+  if (command === "withdraw") {
+    withdrawReceipt.execute(message, args, Discord, client);
+  }
+  if (command === "withdraw-total") {
+    withdrawReceipt.getUsertotal(message, args, Discord, client);
+  }
+  if (command === "withdraw-leaderboard") {
+    withdrawReceipt.getLeaderboard(message, args, Discord, client);
+  }
 });
 client.once("ready", (message) => {
   skillSelection.reactionListener(message, client);
   reactionRoles.reactionListener(message, client);
   donationReceipt.donationReaction(message, client);
+  withdrawReceipt.withdrawReaction(message, client);
   connectToDatabase();
 
   console.log("Ready!");

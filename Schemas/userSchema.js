@@ -6,6 +6,7 @@ const userSchema = new Schema({
   name: String,
   discordId: Number,
   totalDonated: Number,
+  totalWithdrawn: Number,
 });
 
 const user_model = mongoose.model(users, userSchema);

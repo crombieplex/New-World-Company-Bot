@@ -2,31 +2,31 @@ const { default: axios } = require("axios");
 const { execute } = require("./reactionRoles");
 
 module.exports = {
-  name: "withdrawal-receipt",
+  name: "withdraw-receipt",
   description:
     "New world does not offer in game tracking of who removes company funds. This command, when used, will allow users to track their withdrawals. Not automatically, unfortunatley, but they will be able to command the bot to track how much they removed, when, and the total amount in which they have removed.",
   async execute(message, args, Discord, client) {
-    let textChannel = process.env.WITHDRAWAL_RECEIPT_CHANNEL_ID;
+    let textChannel = process.env.WITHDRAW_RECEIPT_CHANNEL_ID;
     let serverUrl = "http://localhost:3001";
-    let withdrawalNumber = parseFloat(args);
+    let withdrawNumber = parseFloat(args);
     if (message.channel.id === textChannel) {
-      if (Number.isFinite(withdrawalNumber) && withdrawalNumber > 0) {
+      if (Number.isFinite(withdrawNumber) && withdrawNumber > 0) {
         let user = message.author.username;
         let user_id = message.author.id;
 
-        let userWithdrawal = {
+        let userWithdraw = {
           name: user,
           discordId: user_id,
-          withdrawalAmount: withdrawalNumber,
+          withdrawAmount: withdrawNumber,
           approved: false,
           messageId: message.id,
         };
 
-        axios.post(`${serverUrl}/withdrawals`, userWithdrawal).then((res) => {
+        axios.post(`${serverUrl}/withdraws`, userWithdraw).then((res) => {
           let embed = new Discord.MessageEmbed()
             .setColor("#e42643")
             .setTitle(`Thank you ${res.data.user} for reporting your withdrawal!\n\n`)
-            .setDescription(`Amount withdrawn: ${res.data.withdrawal}`);
+            .setDescription(`Amount withdrawn: ${res.data.withdraw}`);
           message.channel.send(embed);
         });
       } else
@@ -36,7 +36,7 @@ module.exports = {
     } else return;
   },
   async getUsertotal(message, args, Discord, client) {
-    let textChannel = process.env.WITHDRAWAL_RECEIPT_CHANNEL_ID;
+    let textChannel = process.env.WITHDRAW_RECEIPT_CHANNEL_ID;
 
     function run(user) {
       let discordId = user.id;
@@ -48,15 +48,15 @@ module.exports = {
       };
 
       axios
-        .post(`${serverUrl}/withdrawaltotals`, userInfo)
+        .post(`${serverUrl}/withdrawtotals`, userInfo)
         .then((res) => {
           let user = res.data[0].name;
-          let totalWithdrawals = res.data[0].totalWithdrawn;
+          let totalWithdraws = res.data[0].totalWithdrawn;
 
           let embed = new Discord.MessageEmbed()
             .setColor("#e42643")
-            .setTitle(`${user}'s Total withdrawal amount!\n\n`)
-            .setDescription(`${totalWithdrawals} 🪙's`);
+            .setTitle(`${user}'s Total withdrawn amount!\n\n`)
+            .setDescription(`${totalWithdraws} 🪙's`);
           message.channel.send(embed);
         })
         .catch((err) => {
@@ -75,11 +75,11 @@ module.exports = {
     }
   },
   async getLeaderboard(message, args, Discord, client) {
-    let textChannel = process.env.WITHDRAWAL_RECEIPT_CHANNEL_ID;
+    let textChannel = process.env.WITHDRAW_RECEIPT_CHANNEL_ID;
     let serverUrl = "http://localhost:3001";
     if (message.channel.id === textChannel) {
       axios
-        .get(`${serverUrl}/withdrawalleaderboard`)
+        .get(`${serverUrl}/withdrawleaderboard`)
         .then((res) => {
           let resData = Object.entries(res.data).sort((a, b) => {
             return b[1] - a[1];
@@ -93,7 +93,7 @@ module.exports = {
             });
             let embed = new Discord.MessageEmbed()
               .setColor("#e42643")
-              .setTitle(`Top withdrawers!\n\n`)
+              .setTitle(`Top withdrawals from ledger!\n\n`)
               .setDescription(str);
             message.channel.send(embed);
           } else {
@@ -104,7 +104,7 @@ module.exports = {
             });
             let embed = new Discord.MessageEmbed()
               .setColor("#e42643")
-              .setTitle(`Top withdrawers!\n\n`)
+              .setTitle(`Top withdrawals from ledger!\n\n`)
               .setDescription(str);
             message.channel.send(embed);
           }
@@ -114,16 +114,16 @@ module.exports = {
         });
     } else return;
   },
-  async withdrawalReaction(message, client) {
-    let acceptedEmoji = "✅";
-    let channel = process.env.WITHDRAWAL_RECEIPT_CHANNEL_ID;
+  async withdrawReaction(message, client) {
+    let acceptedEmoji = "🏧";
+    let channel = process.env.WITHDRAW_RECEIPT_CHANNEL_ID;
     client.on("messageReactionAdd", async (reaction, user) => {
       if (reaction.message.channel.id === channel) {
         if (reaction.emoji.name === acceptedEmoji) {
           let serverUrl = "http://localhost:3001";
           let messageId = { messageId: reaction.message.id };
           axios
-            .post(`${serverUrl}/approved`, messageId)
+            .post(`${serverUrl}/withdrawapproved`, messageId)
             .then((res) => {
               console.log(res);
             })

@@ -17,7 +17,6 @@ module.exports = {
         let userWithdraw = {
           name: user,
           discordId: user_id,
-          donationAmount: donationNumber,
           withdrawAmount: withdrawNumber,
           approved: false,
           messageId: message.id,

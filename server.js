@@ -6,7 +6,6 @@ var ObjectId = require("mongodb").ObjectID;
 const app = express();
 const userModel = require("./Schemas/userSchema");
 const donationSchema = require("./Schemas/donationSchema");
-const withdrawSchema = require("./Schemas/withdrawSchema");
 
 const uri = process.env.MONGODB_PRODUCTION_URL;
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -38,6 +37,7 @@ app.post("/donations", async (req, res) => {
     name: user,
     discordId: id,
     donationAmount: donation,
+    withdrawAmount: withdraw,
     approved: approvedDonation,
     messageId: messageId,
   });
@@ -60,9 +60,10 @@ app.post("/withdraws", async (req, res) => {
   let approvedWithdraw = req.body.approved;
   let messageId = req.body.messageId;
 
-  let userWithdraw = new withdrawSchema({
+  let userWithdraw = new donationSchema({
     name: user,
     discordId: id,
+    donationAmount: donation,
     withdrawAmount: withdraw,
     approved: approvedWithdraw,
     messageId: messageId,
@@ -141,6 +142,7 @@ app.post("/approved", async (req, res) => {
       name: donationUpdate.name,
       discordId: donationUpdate.discordId,
       totalDonated: donationUpdate.donationAmount,
+      totalWithdrawn: withdrawUpdate.withdrawAmount,
     });
     userModel.exists(
       { discordId: donationUpdate.discordId },
@@ -178,6 +180,7 @@ app.post("/withdrawapproved", async (req, res) => {
     let discordUser = new userModel({
       name: withdrawUpdate.name,
       discordId: withdrawUpdate.discordId,
+      totalDonated: donationUpdate.donationAmount,
       totalWithdrawn: withdrawUpdate.withdrawAmount,
     });
     userModel.exists(

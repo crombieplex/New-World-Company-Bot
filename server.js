@@ -5,7 +5,6 @@ const bodyParser = require("body-parser");
 var ObjectId = require("mongodb").ObjectID;
 const app = express();
 const userModel = require("./Schemas/userSchema");
-const userWithdrawnModel = require("./Schemas/userWithdrawnSchema");
 const donationSchema = require("./Schemas/donationSchema");
 const withdrawSchema = require("./Schemas/withdrawSchema");
 

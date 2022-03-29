@@ -37,7 +37,6 @@ app.post("/donations", async (req, res) => {
     name: user,
     discordId: id,
     donationAmount: donation,
-    withdrawAmount: withdraw,
     approved: approvedDonation,
     messageId: messageId,
   });
@@ -63,7 +62,6 @@ app.post("/withdraws", async (req, res) => {
   let userWithdraw = new donationSchema({
     name: user,
     discordId: id,
-    donationAmount: donation,
     withdrawAmount: withdraw,
     approved: approvedWithdraw,
     messageId: messageId,

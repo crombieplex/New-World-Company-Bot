@@ -173,7 +173,7 @@ app.post("/withdrawapproved", async (req, res) => {
   let messageId = req.body.messageId;
 
   try {
-    let withdrawUpdate = await withdrawSchema.findOne({ messageId: messageId });
+    let withdrawUpdate = await donationSchema.findOne({ messageId: messageId });
 
     let discordUser = new userModel({
       name: withdrawUpdate.name,

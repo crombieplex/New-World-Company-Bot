@@ -61,7 +61,7 @@ client.once("ready", (message) => {
   skillSelection.reactionListener(message, client);
   reactionRoles.reactionListener(message, client);
   donationReceipt.donationReaction(message, client);
-  withdraw.withdrawReaction(message, client);
+  withdrawReceipt.withdrawReaction(message, client);
   connectToDatabase();
 
   console.log("Ready!");

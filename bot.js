@@ -1,7 +1,7 @@
 require("dotenv").config();
 const reactionRoles = require("./commands/reactionRoles");
 const skillSelection = require("./commands/skillSelection");
-const withdrawalReceipt = require("./commands/withdrawalReceipt");
+const donationReceipt = require("./commands/donationReceipt");
 const connectToDatabase = require("./server");
 const Discord = require("discord.js");
 const client = new Discord.Client({
@@ -37,20 +37,20 @@ client.on("message", (message) => {
   if (command === "trade-skill-selection") {
     skillSelection.execute(message, args, Discord, client);
   }
-  if (command === "withdrawal") {
-    withdrawalReceipt.execute(message, args, Discord, client);
+  if (command === "donation") {
+    donationReceipt.execute(message, args, Discord, client);
   }
-  if (command === "withdrawal-total") {
-    withdrawalReceipt.getUsertotal(message, args, Discord, client);
+  if (command === "donation-total") {
+    donationReceipt.getUsertotal(message, args, Discord, client);
   }
-  if (command === "withdrawal-leaderboard") {
-    withdrawalReceipt.getLeaderboard(message, args, Discord, client);
+  if (command === "donation-leaderboard") {
+    donationReceipt.getLeaderboard(message, args, Discord, client);
   }
 });
 client.once("ready", (message) => {
   skillSelection.reactionListener(message, client);
   reactionRoles.reactionListener(message, client);
-  withdrawalReceipt.withdrawalReaction(message, client);
+  donationReceipt.donationReaction(message, client);
   connectToDatabase();
 
   console.log("Ready!");

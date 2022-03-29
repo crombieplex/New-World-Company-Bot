@@ -115,7 +115,7 @@ module.exports = {
     } else return;
   },
   async withdrawReaction(message, client) {
-    let acceptedEmoji = "✅";
+    let acceptedEmoji = "🏧";
     let channel = process.env.WITHDRAW_RECEIPT_CHANNEL_ID;
     client.on("messageReactionAdd", async (reaction, user) => {
       if (reaction.message.channel.id === channel) {

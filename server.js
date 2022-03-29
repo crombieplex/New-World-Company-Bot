@@ -178,7 +178,7 @@ app.post("/withdrawapproved", async (req, res) => {
     let discordUser = new userModel({
       name: withdrawUpdate.name,
       discordId: withdrawUpdate.discordId,
-      totalWithdraw: withdrawUpdate.withdrawAmount,
+      totalDonated: withdrawUpdate.withdrawAmount,
     });
     userModel.exists(
       { discordId: withdrawUpdate.discordId },

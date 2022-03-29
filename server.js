@@ -6,6 +6,7 @@ var ObjectId = require("mongodb").ObjectID;
 const app = express();
 const userModel = require("./Schemas/userSchema");
 const donationSchema = require("./Schemas/donationSchema");
+const withdrawSchema = require("./Schemas/withdrawSchema");
 
 const uri = process.env.MONGODB_PRODUCTION_URL;
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -59,7 +60,7 @@ app.post("/withdraws", async (req, res) => {
   let approvedWithdraw = req.body.approved;
   let messageId = req.body.messageId;
 
-  let userWithdraw = new donationSchema({
+  let userWithdraw = new withdrawSchema({
     name: user,
     discordId: id,
     withdrawAmount: withdraw,
@@ -71,7 +72,7 @@ app.post("/withdraws", async (req, res) => {
     if (err) console.log(err);
     else
       res.status(201).send({
-        message: "Withdraw recorded!",
+        message: "Withdraw noted!",
         user: user.name,
         withdraw: user.withdrawAmount,
       });
@@ -93,7 +94,7 @@ app.post("/withdrawtotals", async (req, res) => {
   userModel.find({ discordId: req.body.id }, function (err, data) {
     if (err) console.log("error");
     else if (!data.length) {
-      res.status(404).send({ message: "User has not withdrawn from the company!" });
+      res.status(404).send({ message: "User has not from the company!" });
     } else {
       return res.status(201).send(data);
     }
@@ -140,7 +141,6 @@ app.post("/approved", async (req, res) => {
       name: donationUpdate.name,
       discordId: donationUpdate.discordId,
       totalDonated: donationUpdate.donationAmount,
-      totalWithdrawn: withdrawUpdate.withdrawAmount,
     });
     userModel.exists(
       { discordId: donationUpdate.discordId },
@@ -173,12 +173,11 @@ app.post("/withdrawapproved", async (req, res) => {
   let messageId = req.body.messageId;
 
   try {
-    let withdrawUpdate = await donationSchema.findOne({ messageId: messageId });
+    let withdrawUpdate = await withdrawSchema.findOne({ messageId: messageId });
 
     let discordUser = new userModel({
       name: withdrawUpdate.name,
       discordId: withdrawUpdate.discordId,
-      totalDonated: donationUpdate.donationAmount,
       totalWithdrawn: withdrawUpdate.withdrawAmount,
     });
     userModel.exists(

@@ -18,6 +18,7 @@ module.exports = {
           name: user,
           discordId: user_id,
           donationAmount: donationNumber,
+          withdrawAmount: withdrawNumber,
           approved: false,
           messageId: message.id,
         };

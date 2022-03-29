@@ -5,7 +5,6 @@ const withdraws = "withdraws";
 const withdrawSchema = new Schema({
   name: String,
   discordId: Number,
-  donationAmount: Number,
   withdrawAmount: Number,
   approved: Boolean,
   messageId: Number,

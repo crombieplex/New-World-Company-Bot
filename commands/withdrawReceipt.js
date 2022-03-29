@@ -4,7 +4,7 @@ const { execute } = require("./reactionRoles");
 module.exports = {
   name: "withdraw-receipt",
   description:
-    "New world does not offer in game tracking of who donates to the company. This command, when used, will allow users to track their withdraws. Not automatically, unfortunatley, but they will be able to command the bot to track how much they withdrawn, when, and the total amount in which they have withdrawn.",
+    "New world does not offer in game tracking of who removes company funds. This command, when used, will allow users to track their withdrawals. Not automatically, unfortunatley, but they will be able to command the bot to track how much they removed, when, and the total amount in which they have removed.",
   async execute(message, args, Discord, client) {
     let textChannel = process.env.WITHDRAW_RECEIPT_CHANNEL_ID;
     let serverUrl = "http://localhost:3001";
@@ -17,6 +17,7 @@ module.exports = {
         let userWithdraw = {
           name: user,
           discordId: user_id,
+          donationAmount: donationNumber,
           withdrawAmount: withdrawNumber,
           approved: false,
           messageId: message.id,
@@ -93,7 +94,7 @@ module.exports = {
             });
             let embed = new Discord.MessageEmbed()
               .setColor("#e42643")
-              .setTitle(`Top donators for Touching Tips!\n\n`)
+              .setTitle(`Top withdrawals!\n\n`)
               .setDescription(str);
             message.channel.send(embed);
           } else {
@@ -104,7 +105,7 @@ module.exports = {
             });
             let embed = new Discord.MessageEmbed()
               .setColor("#e42643")
-              .setTitle(`Top donators for Touching Tips!\n\n`)
+              .setTitle(`Top withdrawals!\n\n`)
               .setDescription(str);
             message.channel.send(embed);
           }

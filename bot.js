@@ -2,7 +2,7 @@ require("dotenv").config();
 const reactionRoles = require("./commands/reactionRoles");
 const skillSelection = require("./commands/skillSelection");
 const donationReceipt = require("./commands/donationReceipt");
-const withdrawalReceipt = require("./commands/withdrawalReceipt");
+const withdrawReceipt = require("./commands/withdrawReceipt");
 const connectToDatabase = require("./server");
 const Discord = require("discord.js");
 const client = new Discord.Client({

@@ -92,7 +92,7 @@ app.post("/donationtotals", async (req, res) => {
 });
 
 app.post("/withdrawtotals", async (req, res) => {
-  userWithdrawnModel.find({ discordId: req.body.id }, function (err, data) {
+  userModel.find({ discordId: req.body.id }, function (err, data) {
     if (err) console.log("error");
     else if (!data.length) {
       res.status(404).send({ message: "User has not withdrawn from the company!" });
@@ -119,7 +119,7 @@ app.get("/donationleaderboard", async (req, res) => {
 
 app.get("/withdrawleaderboard", async (req, res) => {
   const leaders = {};
-  userWithdrawnModel.find({}, function (err, users) {
+  userModel.find({}, function (err, users) {
     if (err) {
       console.log(err);
     } else {
@@ -181,7 +181,7 @@ app.post("/withdrawapproved", async (req, res) => {
       discordId: withdrawUpdate.discordId,
       totalWithdrawn: withdrawUpdate.withdrawAmount,
     });
-    userWithdrawnModel.exists(
+    userModel.exists(
       { discordId: withdrawUpdate.discordId },
       async function (err, result) {
         if (err) {
@@ -193,7 +193,7 @@ app.post("/withdrawapproved", async (req, res) => {
             if (err) console.log(err);
           });
         } else {
-          let user = await userWithdrawnModel.findOne({
+          let user = await userModel.findOne({
             discordId: withdrawUpdate.discordId,
           });
           withdrawUpdate.approved = true;

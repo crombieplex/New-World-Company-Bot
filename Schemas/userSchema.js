@@ -6,6 +6,7 @@ const userSchema = new Schema({
   name: String,
   discordId: Number,
   donationAmount: Number,
+  withdrawAmount: Number,
   totalDonated: Number,
   totalWithdrawn: Number,
 });

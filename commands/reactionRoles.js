@@ -3,16 +3,18 @@ module.exports = {
   description: "this command will assign weapon roles to the users",
   async execute(message, args, Discord, client) {
     const swordAndShieldEmoji = "🛡️";
-    const rapierEmoji = "🗡️";
+    const rapierEmoji = "🤺";
     const hatchetEmoji = "🪓";
-    const spearEmoji = "🥢";
-    const greatAxeEmoji = "🐵";
-    const warHammerEmoji = "🤤";
+    const spearEmoji = "🔱";
+    const greatAxeEmoji = "⛏";
+    const warHammerEmoji = "⚒️";
     const bowEmoji = "🏹";
-    const musketEmoji = "🔫";
+    const musketEmoji = "🤖";
     const fireStaffEmoji = "🔥";
     const lifeStaffEmoji = "❤️";
     const iceGauntletEmoji = "🧊";
+    const voidGauntletEmoji = "🌌";
+    const blunderBussEmoji = "🔫";
 
     let embed = new Discord.MessageEmbed()
       .setColor("#e42643")
@@ -28,7 +30,9 @@ module.exports = {
           `${musketEmoji} for Musket \n` +
           `${fireStaffEmoji} for Fire Staff \n` +
           `${lifeStaffEmoji} for Life Staff \n` +
-          `${iceGauntletEmoji} for Ice Gauntlet`
+          `${iceGauntletEmoji} for Ice Gauntlet` +
+          `${voidGauntletEmoji} for Void Gauntlet` +
+          `${blunderBussEmoji} for Blunderbuss`
       );
 
     let messageEmbed = await message.channel.send(embed);
@@ -43,19 +47,23 @@ module.exports = {
     messageEmbed.react(fireStaffEmoji);
     messageEmbed.react(lifeStaffEmoji);
     messageEmbed.react(iceGauntletEmoji);
+    messageEmbed.react(voidGauntletEmoji);
+    messageEmbed.react(blunderBussEmoji);
   },
   async reactionListener(message, client) {
     const swordAndShieldEmoji = "🛡️";
-    const rapierEmoji = "🗡️";
+    const rapierEmoji = "🤺";
     const hatchetEmoji = "🪓";
-    const spearEmoji = "🥢";
-    const greatAxeEmoji = "🐵";
-    const warHammerEmoji = "🤤";
+    const spearEmoji = "🔱";
+    const greatAxeEmoji = "⛏";
+    const warHammerEmoji = "⚒️";
     const bowEmoji = "🏹";
-    const musketEmoji = "🔫";
+    const musketEmoji = "🤖";
     const fireStaffEmoji = "🔥";
     const lifeStaffEmoji = "❤️";
     const iceGauntletEmoji = "🧊";
+    const voidGauntletEmoji = "🌌";
+    const blunderBussEmoji = "🔫";
 
     const channel = process.env.WEAPON_CHANNEL_ID;
     const guild = client.guilds.cache.get(`${process.env.GUILD_ID}`);
@@ -82,6 +90,12 @@ module.exports = {
     );
     const iceGauntlet = guild.roles.cache.find(
       (role) => role.name === "Ice Gauntlet"
+    );
+    const voidGauntlet = guild.roles.cache.find(
+      (role) => role.name === "Void Gauntlet"
+    );
+    const blunderBuss = guild.roles.cache.find(
+      (role) => role.name === "Blunderbuss"
     );
 
     client.on("messageReactionAdd", async (reaction, user) => {
@@ -135,6 +149,14 @@ module.exports = {
           await reaction.message.guild.members.cache
             .get(user.id)
             .roles.add(iceGauntlet);
+        } else if (reaction.emoji.name === voidGauntletEmoji) {
+          await reaction.message.guild.members.cache
+            .get(user.id)
+            .roles.add(voidGauntlet);
+        } else if (reaction.emoji.name === blunderBussEmoji) {
+          await reaction.message.guild.members.cache
+            .get(user.id)
+            .roles.add(blunderBuss);
         }
       } else return;
     });
@@ -190,6 +212,14 @@ module.exports = {
           await reaction.message.guild.members.cache
             .get(user.id)
             .roles.remove(iceGauntlet);
+        } else if (reaction.emoji.name === voidGauntletEmoji) {
+          await reaction.message.guild.members.cache
+            .get(user.id)
+            .roles.remove(voidGauntlet);
+        } else if (reaction.emoji.name === blunderBussEmoji) {
+          await reaction.message.guild.members.cache
+            .get(user.id)
+            .roles.remove(blunderBuss);
         }
       } else return;
     });

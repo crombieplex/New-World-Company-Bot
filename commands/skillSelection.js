@@ -9,11 +9,11 @@ module.exports = {
     const arcanaEmoji = "✨";
     const cookingEmoji = "🧑‍🍳";
     const furnishingEmoji = "🪑";
-    const smeltingEmoji = "🪨";
-    const stonecuttingEmoji = "🧱";
+    const smeltingEmoji = "🧱";
+    const stonecuttingEmoji = "⚒️";
     const leatherworkingEmoji = "🐄";
     const weavingEmoji = "🧵";
-    const woodworkingEmoji = "🪵";
+    const woodworkingEmoji = "🌲";
 
     let embed = new Discord.MessageEmbed()
       .setColor("#e42643")

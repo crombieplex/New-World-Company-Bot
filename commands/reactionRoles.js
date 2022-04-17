@@ -19,7 +19,7 @@ module.exports = {
     let embed = new Discord.MessageEmbed()
       .setColor("#e42643")
       .setTitle(
-        "Please choose your two main weapons\n\n" +
+        "Choose your weapons\n\n" +
           `${swordAndShieldEmoji} for Sword and Shield \n` +
           `${rapierEmoji} for Rapier \n` +
           `${hatchetEmoji} for Hatchet \n` +

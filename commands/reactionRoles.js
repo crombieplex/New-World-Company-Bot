@@ -30,8 +30,8 @@ module.exports = {
           `${musketEmoji} for Musket \n` +
           `${fireStaffEmoji} for Fire Staff \n` +
           `${lifeStaffEmoji} for Life Staff \n` +
-          `${iceGauntletEmoji} for Ice Gauntlet` +
-          `${voidGauntletEmoji} for Void Gauntlet` +
+          `${iceGauntletEmoji} for Ice Gauntlet \n` +
+          `${voidGauntletEmoji} for Void Gauntlet \n` +
           `${blunderBussEmoji} for Blunderbuss`
       );
 
